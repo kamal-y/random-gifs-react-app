@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import gotNothingGif from "./i-got-nothing-calvin-payne.gif"
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_GIPHY_API_KEY;
@@ -12,7 +13,13 @@ const useGif = (tag) => {
   async function fetchData(){
     setIsLoading(true);
     let {data} = await axios.get(tag ? `${url}&tag=${tag}` : url)
-    const imageSource = data.data.images.downsized_large.url;
+    console.log("data ",data.data)
+    let imageSource = data.data.images?.downsized_large?.url;
+
+    if(!imageSource){
+      imageSource = gotNothingGif
+    }
+
     setGif(imageSource);
     setIsLoading(false);
     // console.log(data.data.images.downsized_large.url);
